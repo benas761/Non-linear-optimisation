@@ -1,5 +1,5 @@
 from math import sqrt
-import scipy
+import scipy # for numdifftools
 import numdifftools as nd
 
 def f(x):
@@ -16,8 +16,6 @@ def B(x, r):
 
 fib = (-1+sqrt(5))/2
 def goldenCut(X, gradient, R, l, r, x1, x2, L, y1, y2):
-    prevy1, prevy2 = y1, y2
-    # print("L: " + str(L))
     if y2 < y1:
         if L < 0.001:
             return r
@@ -36,9 +34,6 @@ def goldenCut(X, gradient, R, l, r, x1, x2, L, y1, y2):
         y2 = y1
         x1 = r - fib * L
         y1 = B([X[0]-x1*gradient[0], X[1]-x1*gradient[1], X[2]-x1*gradient[2]], R)
-    # if (abs(prevy1) + abs(prevy2))/2 < (abs(y1) + abs(y2))/2:
-    #     print("fuck: prevy1 = " + str(prevy1) + "\n          y1 = " + str(y1))
-    #     print("fuck: prevy2 = " + str(prevy2) + "\n          y2 = " + str(y2))
     return goldenCut(X, gradient, R, l, r, x1, x2, L, y1, y2)
 
 def goldenCutFull(X, gradient, R, l, r):
@@ -80,9 +75,3 @@ print("Final result:   " + str(X))
 print("Perfect answer: " + str([sqrt(1/6), sqrt(1/6), sqrt(1/6)]))
 print("Final gradient:  " + str(nd.Gradient(B)(X, r)))
 print("Answer gradient: " + str(nd.Gradient(B)([[sqrt(1/6), sqrt(1/6), sqrt(1/6)]], r)))
-
-# print(nd.Gradient(B)([sqrt(1/6), sqrt(1/6), sqrt(1/6)], 0.5))
-# print(B([sqrt(1/6), sqrt(1/6), sqrt(1/6)], 0.5))
-# print(B([0, 0, 0], r))
-# print(B([1, 1, 1], r))
-# print(B([0.1, 0.9, 0.5], r))
